@@ -1,0 +1,9 @@
+{
+  "Subscriberid" : {
+    "system" : "string",
+    "subscriberIdentifier" : "string"
+  },
+  "packageId" : "string",
+  "partNumber" : "string",
+  "SerialNumber" : "string"
+}

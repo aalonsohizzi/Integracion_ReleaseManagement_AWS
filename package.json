@@ -1,0 +1,19 @@
+{
+  "name": "lambda-prueba",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.1016.0",
+    "aws-sdk": "^2.1693.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "fast-xml-parser": "^5.5.3",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.3",
+    "node-dev": "^8.0.0",
+    "path": "^0.12.7",
+    "rand-token": "^1.0.1",
+    "serverless-http": "^3.2.0"
+  }
+}

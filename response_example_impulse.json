@@ -1,0 +1,14 @@
+{
+    "operationStatus": {
+      "success": true,
+      "localisedMessageList": {
+        "localisedMessage": [
+          {
+            "message": "string",
+            "language": "AB",
+            "code": "string"
+          }
+        ]
+      }
+}
+}

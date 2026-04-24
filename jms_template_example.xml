@@ -1,0 +1,38 @@
+<ti:InsertLogMessageIM xmlns:tc="http://televisatelecom.net/cdm/common" xmlns:te="http://televisatelecom.net/cdm/entities" xmlns:ti="http://televisatelecom.net/cdm/interactions">
+  <ti:Body>
+    <ti:LogMessage>
+      <te:GlobalMessageId>1-11584616716</te:GlobalMessageId>
+      <te:MessageId>1-5NFCWT</te:MessageId>
+      <te:ComponentId>EXEC-COMMANDS-TS</te:ComponentId>
+      <te:LogTypeId>I</te:LogTypeId>
+      <te:ShortMessage>START Exec Commands TS Action: RETRIEVE.</te:ShortMessage>
+      <te:OriginCode>PST</te:OriginCode>
+      <te:DestinationCode>OM</te:DestinationCode>
+      <te:LogDate>2021-10-07T10:57:16.608-05:00</te:LogDate>
+      <te:IsResendableMessage>false</te:IsResendableMessage>
+      <te:Message>
+        <int:CreateNotificationIM xmlns:int="http://televisatelecom.net/cdm/interactions">
+          <int:Header>
+            <GlobalMessageId xmlns="http://televisatelecom.net/cdm/common">1-11584616716</GlobalMessageId>
+            <MessageId xmlns="http://televisatelecom.net/cdm/common">1-5NFCWT</MessageId>
+            <ActionCode xmlns="http://televisatelecom.net/cdm/common">RETRIEVE</ActionCode>
+            <Sender xmlns="http://televisatelecom.net/cdm/common">PST</Sender>
+            <Target xmlns="http://televisatelecom.net/cdm/common">OM</Target>
+            <Params xmlns="http://televisatelecom.net/cdm/common">
+              <com:Field xmlns:com="http://televisatelecom.net/cdm/common">
+                <com:Key>SUBSCRIPTION_ID</com:Key>
+                <com:Value>subs123456</com:Value>
+              </com:Field>
+              <Field>
+                <Key>USER_ID</Key>
+                <Value>1234567890</Value>
+              </Field>
+            </Params>
+          </int:Header>
+        </int:CreateNotificationIM>
+      </te:Message>
+      <te:ErrorCode/>
+    </ti:LogMessage>
+  </ti:Body>
+</ti:InsertLogMessageIM>
+ 

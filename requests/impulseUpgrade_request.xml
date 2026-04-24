@@ -1,0 +1,8 @@
+<imp:RequestUpgradeRequest xmlns:imp="http://izzi.mx/Mirada/ImpulseUpgrade">
+    <Subscriberid>
+        <system>{{system}}</system>
+        <subscriberIdentifier>{{subscriberIdentifier}}</subscriberIdentifier>
+    </Subscriberid>
+    <packageId>{{packageId}}</packageId>
+    <partNumber>{{partNumber}}</partNumber>
+</imp:RequestUpgradeRequest>
