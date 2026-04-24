@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://siebel.com/CustomUI">
+    <soapenv:Header>{{header}}</soapenv:Header>
+    <soapenv:Body>
+        <cus:TT_spcProduct_spcCatalog_spcAddOns_spcWF_Input>
+            <cus:AccountName>{{AccountName}}</cus:AccountName>
+            <cus:Siebel_spcOperation_spcObject_spcId/>
+            <cus:Error_spcCode/>
+            <cus:Error_spcMessage/>
+        </cus:TT_spcProduct_spcCatalog_spcAddOns_spcWF_Input>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Node.js 24"
+      - curl -fsSL https://rpm.nodesource.com/setup_24.x | bash -
+      - yum install -y nodejs
+      - node --version
+      - npm install --omit=dev
+  build:
+    commands:
+      - echo "Packaging Lambda"
+      - zip -r deployment.zip index.js server.js package.json node_modules functions services requests
+  post_build:
+    commands:
+      - echo "Deploying Lambda"
+      - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://deployment.zip
+      - aws lambda wait function-updated --function-name $LAMBDA_FUNCTION_NAME
+      - VERSION=$(aws lambda publish-version --function-name $LAMBDA_FUNCTION_NAME --query 'Version' --output text)
+      - aws lambda update-alias --function-name $LAMBDA_FUNCTION_NAME --name live --function-version $VERSION
+
+artifacts:
+  files:
+    - deployment.zip
+    
