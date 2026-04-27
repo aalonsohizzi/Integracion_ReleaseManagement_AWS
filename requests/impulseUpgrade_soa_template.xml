@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <RequestUpgrade>
+      <System>{{system}}</System>
+      <SubscriberIdentifier>{{subscriberIdentifier}}</SubscriberIdentifier>
+      <PackageId>{{packageId}}</PackageId>
+      <PartNumber>{{partNumber}}</PartNumber>
+      <SerialNumber>{{SerialNumber}}</SerialNumber>
+    </RequestUpgrade>
+  </soapenv:Body>
+</soapenv:Envelope>

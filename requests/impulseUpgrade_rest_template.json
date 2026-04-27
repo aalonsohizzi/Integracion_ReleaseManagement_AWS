@@ -1,0 +1,9 @@
+{
+  "Subscriberid": {
+    "system": "{{system}}",
+    "subscriberIdentifier": "{{subscriberIdentifier}}"
+  },
+  "packageId": "{{packageId}}",
+  "partNumber": "{{partNumber}}",
+  "SerialNumber": "{{SerialNumber}}"
+}
