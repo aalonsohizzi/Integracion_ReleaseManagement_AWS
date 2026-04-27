@@ -1,0 +1,17 @@
+<ti:InsertLogMessageIM xmlns:tc="http://televisatelecom.net/cdm/common"
+ xmlns:te="http://televisatelecom.net/cdm/entities"
+ xmlns:ti="http://televisatelecom.net/cdm/interactions">
+ <ti:Body>
+  <ti:LogMessage>
+   <te:GlobalMessageId>{{GlobalMessageId}}</te:GlobalMessageId>
+   <te:MessageId>{{MessageId}}</te:MessageId>
+   <te:ComponentId>EXEC-COMMANDS-TS</te:ComponentId>
+   <te:LogTypeId>I</te:LogTypeId>
+   <te:ShortMessage>START Exec Commands TS Action: RETRIEVE.</te:ShortMessage>
+   <te:OriginCode>PST</te:OriginCode>
+   <te:DestinationCode>OM</te:DestinationCode>
+   <te:LogDate>{{LogDate}}</te:LogDate>
+   <te:IsResendableMessage>false</te:IsResendableMessage>
+  </ti:LogMessage>
+ </ti:Body>
+</ti:InsertLogMessageIM>

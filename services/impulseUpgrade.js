@@ -1,74 +1,46 @@
-require("dotenv").config();
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const { callSOA } = require("../functions/callSOA");
-const serviceId = "impulseUpgrade";
+require('dotenv').config();
+const { RestService } = require('./restService');
+const { sendJMSAsync } = require('./jmsService');
+const { measureExecution } = require('../functions/measureExecution');
+const { callSOA } = require('../functions/callSOA');
+const { logMessage } = require('../functions/logMessage');
 
-const impulseUpgrade = async (req) => {
-    try {
-        if (
-            Object.keys(req).length != 4
-        ) {
-            return {
-                body: {
-                    status: 400,
-                    detail: "'Ingrese los parametros requeridos",
-                    dataArea: "",
-                }
-                , status: 400
-            }
-        }
-        const params = {
-            templatePath: "../requests/impulseUpgrade_request.xml",
-            replacements: {
-                system:req.system,
-                subscriberIdentifier:req.subscriberIdentifier,
-                packageId:req.packageId,
-                partNumber:req.partNumber
-            },
-        };
-        const respSiebel = await callSOA(params,serviceId,"","/Mirada/proxy/BpelProcessRequestUpgradePROXY");
-        if (respSiebel.status != 200) {
-            return {
-                body: {
-                    status: respSiebel.status,
-                    detail: serviceId+" - Error SOA",
-                    dataArea: "",
-                }
-                , status: respSiebel.status
-            }
-        }
-        let accountInfo = respSiebel.body?.Envelope?.Body?.RequestUpgradeResponse;
-        if (accountInfo != null && accountInfo != undefined) {
-            return {
-                body: {
-                    status: 200,
-                    detail: serviceId,
-                    dataArea: accountInfo,
-                }
-                , status: 200
-            }
-        } else {
-            return {
-                body: {
-                    status: 400,
-                    detail: serviceId+" - Error al procesar la informacion de la cuenta",
-                    dataArea: "",
-                }
-                , status: 400
-            }
-        }
-    } catch (error) {
-        return{
-                body: {
-                    status: 500,
-                    detail: serviceId + " - Error al consultar la cuenta.",
-                    dataArea: "",
-                }
-                , status: 500
-            }
-    }
+const restService = new RestService();
+const serviceId = 'impulseUpgrade';
+
+// Orquesta tres protocolos en paralelo conceptual:
+//   1. JMS  - log asíncrono fire-and-forget (no bloquea)
+//   2. REST - servicio externo principal (medido con métricas)
+//   3. SOA  - backend SOAP (medido con métricas)
+// La respuesta combina los resultados de REST y SOA para que el cliente los consuma.
+// La validación de parámetros se delega a API Gateway (request validator) para no duplicar lógica.
+const impulseUpgrade = async (req, requestId = 'N/A') => {
+  const correlationId = req.SerialNumber ?? requestId;
+  logMessage(serviceId, correlationId, 'START', 'Inicio servicio', 'INFO');
+
+  // Fire-and-forget: no se await, no afecta latencia ni éxito del request
+  sendJMSAsync(req, correlationId);
+
+  const rest = await measureExecution({
+    service: 'REST',
+    metricSuccess: 'RestSuccess',
+    metricError: 'RestError',
+    metricTimeout: 'RestTimeout',
+    metricLatency: 'RestLatencyMs',
+    fn: () => restService.callExternalService(req)
+  });
+
+  const soa = await measureExecution({
+    service: 'SOA',
+    metricSuccess: 'SoaSuccess',
+    metricError: 'SoaError',
+    metricTimeout: 'SoaTimeout',
+    metricLatency: 'SoaLatencyMs',
+    fn: () => callSOA({ templatePath: '../requests/impulseUpgrade_soa_template.xml', replacements: req }, serviceId)
+  });
+
+  logMessage(serviceId, correlationId, 'END', `REST ${rest ? 'OK' : 'null'} | SOA ${soa?.status}`, 'INFO');
+  return { statusCode: 200, body: JSON.stringify({ rest, soa }) };
 };
 
-module.exports = {
-    impulseUpgrade,
-};
+module.exports = { impulseUpgrade };
